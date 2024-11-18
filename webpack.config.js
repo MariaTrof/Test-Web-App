@@ -2,14 +2,12 @@ import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import dotenv from "dotenv";
-import pkg from 'webpack';
-
-const { DefinePlugin } = pkg;
-const { webpack } = pkg;
-
+import pkg from "webpack";
+//const { webpack } = pkg;
+const { DefinePlugin } = pkg; 
 
 const env = dotenv.config().parsed;
-const supportedEnvs = ["API_URL", "PUBLIC_PATH"];
+const supportedEnvs = [ "API_URL", "PUBLIC_PATH", "AUTH_TOKEN"];
 
 const FORCE_SOURCE_MAP = true;
 
@@ -24,7 +22,12 @@ const config = () => {
   });
 
   if (!filteredEnvs.API_URL) {
-    filteredEnvs.API_URL = "https://school.dev.k8s.citmed.dev/api";
+    filteredEnvs.API_URL = "https://api.todoist.com/rest/v2/projects"; //открытое REST API с todoist
+  }
+
+  if ( !process.env.AUTH_TOKEN ) //из файла .env
+  {
+    throw new Error( "Missing AUTH_TOKEN environment variable" );
   }
 
   const publicPath = filteredEnvs?.PUBLIC_PATH ? filteredEnvs.PUBLIC_PATH : "/";
@@ -99,10 +102,10 @@ const config = () => {
           test: /\.(sass|scss|css)$/,
           exclude: /\.module\.(sass|scss)$/,
           use: [
-            isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'css-loader',
+            isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
+            "css-loader",
             {
-              loader: 'sass-loader',
+              loader: "sass-loader",
               options: {
                 sourceMap: isDevMode || FORCE_SOURCE_MAP,
               },
