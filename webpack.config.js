@@ -4,10 +4,10 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import dotenv from "dotenv";
 import pkg from "webpack";
 //const { webpack } = pkg;
-const { DefinePlugin } = pkg; 
+const { DefinePlugin } = pkg;
 
 const env = dotenv.config().parsed;
-const supportedEnvs = [ "API_URL", "PUBLIC_PATH", "AUTH_TOKEN"];
+const supportedEnvs = ["PUBLIC_PATH", "API_URL"];
 
 const FORCE_SOURCE_MAP = true;
 
@@ -22,14 +22,12 @@ const config = () => {
   });
 
   if (!filteredEnvs.API_URL) {
-    filteredEnvs.API_URL = "https://api.todoist.com/rest/v2/projects"; //открытое REST API с todoist
+    filteredEnvs.API_URL = "https://api.todoist.com/rest/v2"; //открытое REST API с todoist
   }
-
-  if ( !process.env.AUTH_TOKEN ) //из файла .env
+  if ( !filteredEnvs.PUBLIC_PATH )
   {
-    throw new Error( "Missing AUTH_TOKEN environment variable" );
+    filteredEnvs.PUBLIC_PATH = "/"; // Путь к статическим файлам
   }
-
   const publicPath = filteredEnvs?.PUBLIC_PATH ? filteredEnvs.PUBLIC_PATH : "/";
   const publicPathEscaped = publicPath.replaceAll("/", "\\/");
   const publicPathFallbackRegex = RegExp(`^${publicPathEscaped}.*$`);

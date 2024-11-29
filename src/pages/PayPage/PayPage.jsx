@@ -8,7 +8,7 @@ function PayPage() {
       <div className={styles.header}>ОПЛАТА...</div>
       <div className={styles.list}>
         <Link to="/" className={styles.title}>
-          Перейти на главную страницу
+         Go to Main Page
         </Link>
       </div>
     </div>
