@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open",
+    "start": "nodemon ./server/index.js",
+    "serve": "webpack serve",
     "build": "webpack",
-    "dev": "npm run build && npm run start"
+    "dev": "concurrently \"webpack serve\" \"npm run start\""
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,10 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "babel-loader": "^9.2.1",
+    "concurrently": "^9.1.0",
     "css-loader": "^7.1.2",
     "mini-css-extract-plugin": "^2.9.2",
+    "nodemon": "^3.1.7",
     "style-loader": "^4.0.0",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4",
@@ -28,7 +31,9 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "html-webpack-plugin": "^5.6.3",
     "path": "^0.12.7",
     "react": "^18.3.1",

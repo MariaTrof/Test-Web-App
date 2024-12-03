@@ -7,6 +7,7 @@ import MainPage from "../pages/MainPage/MainPage";
 import TaskPage from "../pages/TaskPage/TaskPage";
 import ProjectList from "../pages/ProjectList/ProjectList";
 import { ErrorBoundary } from "react-error-boundary";
+import AuthPage from "../pages/AuthPage/AuthPage";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -24,6 +25,7 @@ function App() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Layout>
         <Routes>
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/projects" element={<ProjectList />} />
           <Route path="/tasks" element={<TaskPage />} />
           <Route path="/pay" element={<PayPage />} />

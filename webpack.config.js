@@ -7,7 +7,7 @@ import pkg from "webpack";
 const { DefinePlugin } = pkg;
 
 const env = dotenv.config().parsed;
-const supportedEnvs = ["PUBLIC_PATH", "API_URL"];
+const supportedEnvs = ["PUBLIC_PATH", "API_URL", "AUTH_URL", "SERVER_URL"];
 
 const FORCE_SOURCE_MAP = true;
 
@@ -24,8 +24,14 @@ const config = () => {
   if (!filteredEnvs.API_URL) {
     filteredEnvs.API_URL = "https://api.todoist.com/rest/v2"; //открытое REST API с todoist
   }
-  if ( !filteredEnvs.PUBLIC_PATH )
+  if (!filteredEnvs.AUTH_URL) {
+    filteredEnvs.AUTH_URL = "https://todoist.com/oauth"; //авторизация с todoist
+  }
+  if ( !filteredEnvs.SERVER_URL )
   {
+    filteredEnvs.SERVER_URL = "http://localhost:5005"; 
+  }
+  if (!filteredEnvs.PUBLIC_PATH) {
     filteredEnvs.PUBLIC_PATH = "/"; // Путь к статическим файлам
   }
   const publicPath = filteredEnvs?.PUBLIC_PATH ? filteredEnvs.PUBLIC_PATH : "/";
@@ -42,7 +48,8 @@ const config = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(import.meta.dirname, "src/public", "index.html"),
+        template: path.join(import.meta.dirname, "public", "index.html"),
+        inject: true,
         favicon: "./src/assets/favicons/favicon-50.png",
       }),
       new MiniCssExtractPlugin({
